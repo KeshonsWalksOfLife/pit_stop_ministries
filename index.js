@@ -7,6 +7,7 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
+const donationsRouter = require("./routes/donations");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +22,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware to parse JSON bodies in requests
 app.use(express.json());
 app.use(morgan("dev"));
+
+// Donations routes for rendering the donations page
+app.use("/donations", donationsRouter);
 
 app.get("/", (req, res) => {
     res.send("This is the Pit Stop Ministries API");
