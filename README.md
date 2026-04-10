@@ -1,6 +1,6 @@
 # Pit Stop Ministries
 
-A web application for Pit Stop Ministries, built by Kesho for Pastor Keyubba Bowman.
+A web application for Pit Stop Ministries, built by Keshon for Pastor Keyubba Bowman.
 
 ## Tech Stack
 
