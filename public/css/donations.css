@@ -1,0 +1,35 @@
+:root {
+    --primary-margin: 0 auto;
+}
+
+#body-main {
+    /* border: 2px solid red; */
+    width: 80%;
+    margin: var(--primary-margin);
+    padding: 20px 20px;
+}
+
+#section-h1 {
+    /* border: 2px solid red; */
+    font-size: 2.18rem;
+    width: 68%;
+    margin: var(--primary-margin);
+}
+
+#section-h2 {
+    /* border: 2px solid red; */
+    font-size: 1.25rem;
+    width: 48%;
+    margin: var(--primary-margin);
+    margin-top: 12%;
+}
+
+#btn-section {
+    /* border: 2px solid red; */
+    font-size: 1.26rem;
+    width: 68%;
+    margin: var(--primary-margin);
+    margin-top: 12%;
+    text-align: center;
+}
+
