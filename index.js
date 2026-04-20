@@ -8,6 +8,7 @@ const path = require("path");
 const morgan = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
 const donationsRouter = require("./routes/donations");
+const contactsRouter = require("./routes/contacts");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,14 +21,15 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware to parse JSON bodies in requests
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(morgan("dev"));
 
 // Donations routes for rendering the donations page
 app.use("/donations", donationsRouter);
 
-// TODO: wire contacts router — require('./routes/contacts') + app.use('/contacts', contactsRouter)
+// Contacts routes for rendering the contact page
+app.use("/contacts", contactsRouter);
 
 app.get("/", (req, res) => {
     res.send("This is the Pit Stop Ministries API");
