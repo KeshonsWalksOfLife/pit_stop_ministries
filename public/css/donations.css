@@ -6,6 +6,8 @@
     /* border: 2px solid red; */
     width: 80%;
     margin: var(--primary-margin);
+    /* Push content past the 200px rail */
+    margin-left: 220px;
     padding: 20px 20px;
 }
 
