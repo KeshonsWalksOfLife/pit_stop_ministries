@@ -35,3 +35,9 @@
     text-align: center;
 }
 
+@media (max-width: 768px) {
+    #body-main {
+        margin-left: auto;
+        width: 90%;
+    }
+}
