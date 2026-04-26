@@ -9,7 +9,7 @@
     padding: 20px 10px;
 }
 
-ul.nav-links {
+.nav-links {
     list-style: none;
     padding: 20px;
     margin: 0;
@@ -31,6 +31,42 @@ a.nav-item {
     background: #555;
 }
 
+.nav-item[aria-current="page"] {
+    color: #FFD166;
+    font-weight: 700;
+    border-left: 4px solid #FFD166;
+    padding-left: 16px;
+}
+
 .nav-toggle {
     display: none;
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        background: #333;
+        /* border: 2px solid red; */
+        width: auto;
+        height: auto;
+    }
+
+    .nav-links {
+        display: none;
+        color: white;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: block;
+        min-width: 48px;
+        min-height: 48px;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
 }
