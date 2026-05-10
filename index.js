@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
 const donationsRouter = require("./routes/donations");
 const contactsRouter = require("./routes/contacts");
+const sermonsRouter = require("./routes/sermons")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,6 +31,9 @@ app.use("/donations", donationsRouter);
 
 // Contacts routes for rendering the contact page
 app.use("/contacts", contactsRouter);
+
+// Sermons routes for rendering the sermons page
+app.use("/sermons", sermonsRouter);
 
 app.get("/", (req, res) => {
     res.send("This is the Pit Stop Ministries API");
