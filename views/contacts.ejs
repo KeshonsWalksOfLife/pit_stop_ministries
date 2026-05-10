@@ -9,25 +9,44 @@
         <h1>Contact Us</h1>
 
         <form action="/contacts" method="post">
+            <!-- Form Name -->
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required> <br><br>
+            <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+             <% if (errors.name) { %>
+                <p class="error"><%= errors.name %></p>
+            <% } %>
+                <br><br>
 
+            <!-- Form Email -->
              <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required> <br><br>
+            <input type="email" id="email" name="email" value="<%= values.email || '' %>" required> 
+             <% if (errors.email) { %>
+                <p class="error"><%= errors.email %></p>
+            <% } %>
+            <br><br>
 
+            <!-- Form Category -->
             <label for="category">Contact Type</label>
 
             <select name="category" id="category">
-                <option value="Prayer Request">Prayer Request</option>
-                <option value="Booking / Speaking">Booking / Speaking</option>
-                <option value="Marriage / Officiate">Marriage / Officiate</option>
-                <option value="General Questions">General Questions</option>
-                <option value="Compliments / Testimonials">Compliments / Testimonials</option>
-                <option value="Suicidal / Emergency">Suicidal / Emergency</option>
+                <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
+                <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
+                <option value="Booking / Speaking" <%= values.category === 'Booking / Speaking' ? 'selected' : '' %>>Booking / Speaking</option>
+                <option value="Marriage / Officiate" <%= values.category === 'Marriage / Officiate' ? 'selected' : '' %>>Marriage / Officiate</option>
+                <option value="General Questions" <%= values.category === 'General Questions' ? 'selected' : '' %>>General Questions</option>
+                <option value="Compliments / Testimonials" <%= values.category === 'Compliments / Testimonials' ? 'selected' : '' %>>Compliments / Testimonials</option>
+                <option value="Suicidal / Emergency" <%= values.category === 'Suicidal / Emergency' ? 'selected' : '' %>>Suicidal / Emergency</option>
             </select>
-
+            <% if (errors.category) { %>
+                <p class="error"><%= errors.category %></p>
+            <% } %>
+            <!-- Form Message -->
             <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea> <br><br>
+            <textarea id="message" name="message" required><%= values.message || '' %></textarea> 
+            <% if (errors.message) { %>
+                <p class="error"><%= errors.message %></p>
+            <% } %>
+            <br><br>
              
             <button type="submit">Submit</button>
         </form>
