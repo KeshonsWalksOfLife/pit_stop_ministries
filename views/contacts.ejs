@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacts</title>
+    <link rel="stylesheet" href="/css/contacts.css">
+    <link rel="stylesheet" href="/css/nav.css">
 </head>
 <body>
+
+    <%- include('partials/nav') %>
+
         <h1>Contact Us</h1>
 
         <form action="/contacts" method="post">
@@ -47,8 +52,12 @@
                 <p class="error"><%= errors.message %></p>
             <% } %>
             <br><br>
+
+            <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" style="position:absolute; left: -9999%; ">
              
             <button type="submit">Submit</button>
+
+            
         </form>
 </body>
 </html>

@@ -8,7 +8,18 @@ router.get("/", (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    // Runs all 4 fields checks.
+    // Honey pot verification
+    if (req.body.website) {
+        console.log('Honeypot triggered', {
+            ip: req.ip,
+            email: req.body.email,
+            name: req.body.name,
+            timestamp: new Date()
+        });
+        res.render('contact-success', { name: 'friend' });
+        return;
+    }
+
     // Gets back errors (which fields failed) + values (what user typed)
     const { errors, values } = validateContact(req.body);
 
