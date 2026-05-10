@@ -18,7 +18,6 @@ async function sendContactEmail({ name, email, category, message }) {
         to: [{ email: "pastorq@thepittstopministries.org" }],
         replyTo: { email, name }
     });
-    console.log('Email sent successfully:', result);
     return result;
 }
 
