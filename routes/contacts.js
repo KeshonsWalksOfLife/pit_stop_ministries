@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
     }
     catch (error) {
         console.error("Receiving an Error:", error);
-        res.status(500).send("An error has occured while sending the email, please try again.");
+        res.status(500).send("An error has occurred while sending the email, please try again.");
     }
 });
 
