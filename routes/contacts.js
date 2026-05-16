@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { sendContactEmail } = require("../services/email");
 const { validateContact } = require("../services/validateContact");
+const { limiter } = require("../services/rateLimiter");
 
 router.get("/", (req, res) => {
     res.render('contacts', { currentPage: 'contacts', errors: {}, values: {} });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', limiter, async (req, res) => {
     // Honey pot verification
     if (req.body.website) {
         console.log('Honeypot triggered', {
