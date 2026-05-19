@@ -1,0 +1,13 @@
+body {
+    /* border: 2px solid red; */
+    margin: 0 auto;
+    background: rgb(228, 225, 225);
+}
+
+#container-main {
+    border: 2px solid red;
+    background: rgba(0,0,0,0.4);
+    margin: 4rem auto;
+    width: 60%;
+    display: flex;
+}
