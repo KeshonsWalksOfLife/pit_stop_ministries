@@ -8,56 +8,68 @@
     <link rel="stylesheet" href="/css/nav.css">
 </head>
 <body>
-
     <%- include('partials/nav') %>
 
-        <h1>Contact Us</h1>
+    <main id="container-main">
+            <section id="contact-intro">
+                <h1 class="contact-h1">Contact Us</h1>
+                <p> ... Reassurance copy ...</p>
+                <ul class="alt-contact">
+                    <li>Email: pastorq@...</li>
+                    <li>Crisis: 988</li>
+                </ul>
+            </section>
 
-        <form action="/contacts" method="post">
-            <!-- Form Name -->
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
-             <% if (errors.name) { %>
-                <p class="error"><%= errors.name %></p>
-            <% } %>
-                <br><br>
+            <section id="contact-form">
+                <form action="/contacts" method="post">
+                    <!-- Form Name -->
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+                    <% if (errors.name) { %>
+                        <p class="error"><%= errors.name %></p>
+                    <% } %>
+                        <br><br>
 
-            <!-- Form Email -->
-             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= values.email || '' %>" required> 
-             <% if (errors.email) { %>
-                <p class="error"><%= errors.email %></p>
-            <% } %>
-            <br><br>
+                    <!-- Form Email -->
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<%= values.email || '' %>" required> 
+                    <% if (errors.email) { %>
+                        <p class="error"><%= errors.email %></p>
+                    <% } %>
+                    <br><br>
 
-            <!-- Form Category -->
-            <label for="category">Contact Type</label>
+                    <!-- Form Category -->
+                    <label for="category">Contact Type</label>
 
-            <select name="category" id="category">
-                <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
-                <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
-                <option value="Booking / Speaking" <%= values.category === 'Booking / Speaking' ? 'selected' : '' %>>Booking / Speaking</option>
-                <option value="Marriage / Officiate" <%= values.category === 'Marriage / Officiate' ? 'selected' : '' %>>Marriage / Officiate</option>
-                <option value="General Questions" <%= values.category === 'General Questions' ? 'selected' : '' %>>General Questions</option>
-                <option value="Compliments / Testimonials" <%= values.category === 'Compliments / Testimonials' ? 'selected' : '' %>>Compliments / Testimonials</option>
-                <option value="Suicidal / Emergency" <%= values.category === 'Suicidal / Emergency' ? 'selected' : '' %>>Suicidal / Emergency</option>
-            </select>
-            <% if (errors.category) { %>
-                <p class="error"><%= errors.category %></p>
-            <% } %>
-            <!-- Form Message -->
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required><%= values.message || '' %></textarea> 
-            <% if (errors.message) { %>
-                <p class="error"><%= errors.message %></p>
-            <% } %>
-            <br><br>
+                    <select name="category" id="category">
+                        <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
+                        <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
+                        <option value="Booking / Speaking" <%= values.category === 'Booking / Speaking' ? 'selected' : '' %>>Booking / Speaking</option>
+                        <option value="Marriage / Officiate" <%= values.category === 'Marriage / Officiate' ? 'selected' : '' %>>Marriage / Officiate</option>
+                        <option value="General Questions" <%= values.category === 'General Questions' ? 'selected' : '' %>>General Questions</option>
+                        <option value="Compliments / Testimonials" <%= values.category === 'Compliments / Testimonials' ? 'selected' : '' %>>Compliments / Testimonials</option>
+                        <option value="Suicidal / Emergency" <%= values.category === 'Suicidal / Emergency' ? 'selected' : '' %>>Suicidal / Emergency</option>
+                    </select>
+                    <% if (errors.category) { %>
+                        <p class="error"><%= errors.category %></p>
+                    <% } %>
+                    <br><br>
+                    <!-- Form Message -->
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required><%= values.message || '' %></textarea> 
+                    <% if (errors.message) { %>
+                        <p class="error"><%= errors.message %></p>
+                    <% } %>
+                    <br><br>
 
-            <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" style="position:absolute; left: -9999px; ">
-             
-            <button type="submit">Submit</button>
-
+                    <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" style="position:absolute; left: -9999px; ">
+                    
+                    <button type="submit">Submit</button>
             
-        </form>
+                </form>
+            </section>
+        </main>
+
+        <script src="/js/nav.js" defer></script>
 </body>
 </html>
