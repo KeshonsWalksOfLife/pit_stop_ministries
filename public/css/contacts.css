@@ -1,13 +1,302 @@
+:root {
+    --bg: #1a1612;
+    --surface: #242018;
+    --surface-hi: #2c2820;
+    --brand-orange: #E85A1A;
+    --brand-gold: #FFD166;
+    --brand-blue: #1E5BAA;
+    --accent-red: #a01818;
+    --text: #f4f1ec;
+    --text-muted: #a8a39c;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-hi: rgba(255, 209, 102, 0.45);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    /* border: 2px solid red; */
-    margin: 0 auto;
-    background: rgb(228, 225, 225);
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 #container-main {
-    border: 2px solid red;
-    background: rgba(0,0,0,0.4);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 4rem;
+    max-width: 1050px;
     margin: 4rem auto;
-    width: 60%;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    #container-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin: 2rem auto;
+        padding: 1.25rem;
+    }
+}
+
+/* ---------- Intro column ---------- */
+
+#contact-intro {
+    align-self: start;
+}
+
+.intro-figure {
+    margin: 0 0 1.75rem;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    aspect-ratio: 3 / 4;
+    max-height: 440px;
+    background: var(--surface);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.intro-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.intro-figure:hover img {
+    transform: scale(1.03);
+}
+
+.contact-h1 {
+    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+    line-height: 1.15;
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+}
+
+.contact-lede {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+    max-width: 38ch;
+}
+
+.alt-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.alt-contact li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.alt-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.alt-contact a {
+    color: var(--brand-gold);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.alt-contact a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Form card ---------- */
+
+.contact-form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.field {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.field label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 7rem;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    outline: none;
+    border-color: var(--border-hi);
+    box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.18);
+    background: var(--surface-hi);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.error {
+    color: #f0a0a0;
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+}
+
+/* Honeypot — visually hidden, accessibility-safe */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+}
+
+/* ---------- Submit button ---------- */
+
+.btn-submit {
+    margin-top: 0.5rem;
+    background: var(--brand-gold);
+    color: #1a1612;
+    border: none;
+    border-radius: 8px;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    justify-self: start;
+    transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.btn-submit:hover {
+    background: #ffdd85;
+    box-shadow: 0 6px 16px rgba(255, 209, 102, 0.2);
+}
+
+.btn-submit:active {
+    transform: translateY(1px);
+}
+
+.btn-submit:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.35);
+}
+
+/* ---------- Crisis interception alert ---------- */
+
+.crisis-alert {
+    background: linear-gradient(180deg, rgba(160, 24, 24, 0.18), rgba(160, 24, 24, 0.08));
+    border: 1px solid rgba(240, 160, 160, 0.4);
+    border-left: 4px solid var(--accent-red);
+    border-radius: 10px;
+    padding: 1.25rem 1.25rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.crisis-alert[hidden] {
+    display: none;
+}
+
+.crisis-title {
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+    color: #ffe6e6;
+    font-size: 1.05rem;
+}
+
+.crisis-actions {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.crisis-actions a {
+    display: inline-block;
+    background: var(--accent-red);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.crisis-actions a:hover {
+    background: #c12020;
+}
+
+.crisis-note {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
 }

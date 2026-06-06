@@ -6,41 +6,41 @@
     <title>Contacts</title>
     <link rel="stylesheet" href="/css/contacts.css">
     <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
     <%- include('partials/nav') %>
 
     <main id="container-main">
-            <section id="contact-intro">
-                <h1 class="contact-h1">Contact Us</h1>
-                <p> ... Reassurance copy ...</p>
-                <ul class="alt-contact">
-                    <li>Email: pastorq@...</li>
-                    <li>Crisis: 988</li>
+        <section id="contact-intro" class="reveal">
+            <figure class="intro-figure">
+                <img src="/img/pastor-q-pulpit.jpg" alt="Pastor Q ministering at the pulpit" loading="lazy">
+            </figure>
+            <h1 class="contact-h1">Reach Out — We're Listening</h1>
+            <p class="contact-lede">
+                Need prayer? Looking to book a speaking engagement? Have any questions?
+                Leave a message for Pastor Q and he'll get back to you.
+            </p>
+            <ul class="alt-contact">
+                <li><span class="alt-label">Email</span> <a href="mailto:pastorq@thepittstopministries.org">pastorq@thepittstopministries.org</a></li>
+                <li><span class="alt-label">Crisis</span> <a href="tel:988">988 Suicide &amp; Crisis Lifeline</a></li>
+            </ul>
+        </section>
+
+        <section id="contact-form" class="reveal">
+            <div id="crisis-alert" class="crisis-alert" hidden>
+                <p class="crisis-title">If you are in immediate danger, please reach out now.</p>
+                <ul class="crisis-actions">
+                    <li><a href="tel:988">Call 988</a></li>
+                    <li><a href="sms:988">Text 988</a></li>
+                    <li><a href="https://988lifeline.org/chat/" target="_blank" rel="noopener">Chat with 988</a></li>
                 </ul>
-            </section>
+                <p class="crisis-note">You are not alone. Pastor Q will still receive your message — but please connect with a trained counselor right now.</p>
+            </div>
 
-            <section id="contact-form">
-                <form action="/contacts" method="post">
-                    <!-- Form Name -->
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
-                    <% if (errors.name) { %>
-                        <p class="error"><%= errors.name %></p>
-                    <% } %>
-                        <br><br>
-
-                    <!-- Form Email -->
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<%= values.email || '' %>" required> 
-                    <% if (errors.email) { %>
-                        <p class="error"><%= errors.email %></p>
-                    <% } %>
-                    <br><br>
-
-                    <!-- Form Category -->
+            <form action="/contacts" method="post" class="contact-form-card">
+                <div class="field">
                     <label for="category">Contact Type</label>
-
                     <select name="category" id="category">
                         <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
                         <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
@@ -53,23 +53,42 @@
                     <% if (errors.category) { %>
                         <p class="error"><%= errors.category %></p>
                     <% } %>
-                    <br><br>
-                    <!-- Form Message -->
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" required><%= values.message || '' %></textarea> 
+                </div>
+
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+                    <% if (errors.name) { %>
+                        <p class="error"><%= errors.name %></p>
+                    <% } %>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="<%= values.email || '' %>" required>
+                    <% if (errors.email) { %>
+                        <p class="error"><%= errors.email %></p>
+                    <% } %>
+                </div>
+
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" required><%= values.message || '' %></textarea>
                     <% if (errors.message) { %>
                         <p class="error"><%= errors.message %></p>
                     <% } %>
-                    <br><br>
+                </div>
 
-                    <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" style="position:absolute; left: -9999px; ">
-                    
-                    <button type="submit">Submit</button>
-            
-                </form>
-            </section>
-        </main>
+                <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" class="hp-field">
 
-        <script src="/js/nav.js" defer></script>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/contacts.js" defer></script>
 </body>
 </html>
