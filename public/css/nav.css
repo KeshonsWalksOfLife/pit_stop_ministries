@@ -14,12 +14,13 @@ main {
     top: 0;
     left: 0;
     height: 100vh;
-    width: 150px;
+    width: 200px;
     background: #15110d;
     color: white;
     padding: 20px 10px;
     border-right: 1px solid rgba(255, 255, 255, 0.06);
     box-sizing: border-box;
+    /* border: 2px solid red; */
     z-index: 50;
 }
 
