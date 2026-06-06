@@ -8,6 +8,10 @@
     --border: rgba(255, 255, 255, 0.1);
 }
 
+html {
+    background: #15110d;
+}
+
 body {
     margin: 0;
     background: var(--bg);
