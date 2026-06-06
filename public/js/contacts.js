@@ -14,6 +14,16 @@
         category.addEventListener('change', syncCrisisAlert);
     }
 
+    const form = document.querySelector('.contact-form-card');
+    const submitBtn = form ? form.querySelector('.btn-submit') : null;
+    if (form && submitBtn) {
+        form.addEventListener('submit', () => {
+            submitBtn.disabled = true;
+            submitBtn.dataset.originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending…';
+        });
+    }
+
     const reveals = document.querySelectorAll('.reveal');
     if (!reveals.length) return;
 

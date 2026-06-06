@@ -248,6 +248,14 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.35);
 }
 
+.btn-submit:disabled,
+.btn-submit[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+    background: var(--brand-gold);
+    box-shadow: none;
+}
+
 /* ---------- Crisis interception alert ---------- */
 
 .crisis-alert {

@@ -1,0 +1,131 @@
+:root {
+    --bg: #1a1612;
+    --surface: #242018;
+    --brand-gold: #FFD166;
+    --accent-green: #4ea674;
+    --text: #f4f1ec;
+    --text-muted: #a8a39c;
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+}
+
+#success-container {
+    max-width: 560px;
+    margin: 5rem auto;
+    padding: 2.5rem 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    animation: success-rise 0.6s ease both;
+}
+
+@keyframes success-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.success-check {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(78, 166, 116, 0.15);
+    border: 2px solid var(--accent-green);
+}
+
+.success-check svg {
+    width: 36px;
+    height: 36px;
+    stroke: var(--accent-green);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: check-draw 0.5s ease 0.2s both;
+}
+
+@keyframes check-draw {
+    from { stroke-dasharray: 0 100; }
+    to   { stroke-dasharray: 100 100; }
+}
+
+.success-h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.8rem;
+    letter-spacing: -0.01em;
+}
+
+.success-message {
+    margin: 0 0 2rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+.success-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--brand-gold);
+    color: #1a1612;
+}
+
+.btn-primary:hover {
+    background: #ffdd85;
+    box-shadow: 0 6px 16px rgba(255, 209, 102, 0.2);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 640px) {
+    #success-container {
+        margin: 2.5rem 1.25rem;
+        padding: 2rem 1.25rem;
+    }
+    .success-h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #success-container,
+    .success-check svg {
+        animation: none;
+    }
+}

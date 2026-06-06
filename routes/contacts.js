@@ -17,7 +17,7 @@ router.post('/', limiter, async (req, res) => {
             name: req.body.name,
             timestamp: new Date()
         });
-        res.render('contact-success', { name: 'friend' });
+        res.render('contact-success', { currentPage: 'contacts', name: 'friend' });
         return;
     }
 
