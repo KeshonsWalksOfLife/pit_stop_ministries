@@ -6,10 +6,6 @@ A web application for Pitt Stop Ministries, built by Keshon for Pastor Keyubba B
 > layer — what the project is, how to run it, and where things stand. For how each subsystem
 > actually works (and why), follow the links in [Documentation](#documentation) below.
 
-## Tech Stack
-
-## Tech Stack
-
 ## Getting Started
 
 ```bash
