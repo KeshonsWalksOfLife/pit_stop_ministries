@@ -104,9 +104,17 @@ Defense is intentionally layered: each gate is cheaper and broader than the next
 
 ## Donations Page
 
-Renders an embedded Tithe.ly Give widget. Route at `routes/donations.js`, view at `views/donations.ejs`, styles at `public/css/donations.css`.
+Theological framing paired with a Tithe.ly Give button. Clicking opens Tithe.ly's hosted modal for the actual donation flow — the page itself stays lean and focused on the call.
 
-*UI cleanup pass pending — see [Roadmap](#roadmap).*
+**Layout:** centered single-column, dark theme matching the rest of the site. Three reveals on scroll: hero copy, theological framing, then the Give section.
+
+**Give button:** uses the `tithely-give-button` class (which `give.js` binds the modal trigger to) and a `data-form` ID for the configured form. Tithe.ly's default inline styling has been stripped — the button is restyled to brand-gold matching the contact form's submit, so all primary actions across the site share the same visual signal.
+
+**Supporting copy near the button:**
+- Cadence line above: *"Give once, or give every month."* — surfaces recurring giving as an option without adding a separate UI control (Tithe.ly's modal handles the actual toggle).
+- Trust line below: *"Secure giving powered by Tithe.ly."* — donors hesitate without a trust marker.
+
+Route at `routes/donations.js`, view at `views/donations.ejs`, styles at `public/css/donations.css`, reveal observer at `public/js/donations.js`.
 
 ## Sermons Page
 
@@ -125,8 +133,9 @@ Currently a scaffold. Route at `routes/sermons.js`, view at `views/sermons.ejs`,
 - [x] Crisis interception JS for emergency category
 - [x] Contact page design pass (dark theme + form-focused layout + radial glow)
 - [x] Sermons page (scaffold)
-- [ ] Donations UI cleanup *(next)*
-- [ ] Sermons page: YouTube channel embed + design pass
+- [x] Donations page design pass (dark theme + brand-gold Give button + footer + reveals)
+- [ ] Sermons page: YouTube channel embed + design pass *(next)*
+- [ ] Donor testimonials section on donations page (Phase 2 — stories from those who've given and what led them to it)
 - [ ] Events page
 - [ ] Home page (built last, after all sub-pages exist)
 - [ ] Auth0 integration (Phase 2 — user accounts for Pastor Bowman to manage content)
