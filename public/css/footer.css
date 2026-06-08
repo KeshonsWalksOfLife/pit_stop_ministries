@@ -1,0 +1,57 @@
+/* ---------- Site footer ---------- */
+/* Designed to blend into the dark warm canvas — no boxy seams. */
+
+.site-footer {
+    background: #15110d;
+    color: #a8a39c;
+    padding: 2.5rem 1.5rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
+    font-size: 0.9rem;
+    /* border: 2px solid red; */
+    box-shadow: 0 6px 12px 4px rgba(0,0,0,0.2);
+}
+
+.footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-brand {
+    margin: 0;
+    color: #f4f1ec;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #FFD166;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+    color: #ffdd85;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.footer-copy {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: #7a756e;
+}

@@ -128,3 +128,6 @@ Renders a list of sermons (currently scaffolded; YouTube channel embed pending).
 - [ ] Events page
 - [ ] Home page (built last, after all sub-pages exist)
 - [ ] Auth0 integration (Phase 2 — user accounts for Pastor Bowman to manage content)
+- [ ] Collapsible desktop/tablet nav rail with icon-only state (Phase 2 — requires icon library)
+- [ ] Cookie consent + SEO/analytics groundwork (Phase 2)
+- [ ] Refactor shared `<head>` content into `partials/head.ejs` (Phase 2 — prevents per-page script/CSS tag drift)

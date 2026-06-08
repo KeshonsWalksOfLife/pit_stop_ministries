@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success Message</title>
+    <title>Message Sent — Pit Stop Ministries</title>
+    <link rel="stylesheet" href="/css/success.css">
     <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-   
-    <%- include ('partials/nav') %>
+    <%- include('partials/nav') %>
 
-    <section id="container">
-        <h2> Hey <%= name %></h2>
-        <p>Thank you for filling out message, we will be right with you as soon as we can</p>
-    </section>
+    <main>
+        <section id="success-container">
+            <div class="success-check" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="5 12 10 17 19 7"></polyline>
+                </svg>
+            </div>
+            <h1 class="success-h1">Thank you, <%= name %></h1>
+            <p class="success-message">
+                Your message is on its way to Pastor Q. He'll get back to you soon.
+            </p>
+            <div class="success-actions">
+                <a href="/" class="btn-primary">Back to Home</a>
+                <a href="/contacts" class="btn-secondary">Send Another Message</a>
+            </div>
+        </section>
+    </main>
 
+    <%- include('partials/footer') %>
+
+    <script src="/js/nav.js" defer></script>
 </body>
-</html> 
+</html>
