@@ -8,25 +8,13 @@ A web application for Pitt Stop Ministries, built by Keshon for Pastor Keyubba B
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Framework:** Express 5
-- **Template Engine:** EJS
-- **Environment:** dotenv
-- **Logging:** morgan
-- **Dev Server:** nodemon
-- **Email:** @getbrevo/brevo — transactional API for contact form
-- **Rate Limiting:** express-rate-limit — IP-based throttling on sensitive endpoints
+## Tech Stack
 
 ## Getting Started
 
 ```bash
-# Install dependencies
 npm install
-
-# Copy environment template and fill in values
-cp .env.example .env
-
-# Start dev server with auto-reload
+cp .env.example .env       # fill in BREVO_API_KEY, PORT, etc.
 npm run dev
 ```
 

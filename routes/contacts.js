@@ -17,7 +17,7 @@ router.post('/', limiter, async (req, res) => {
             name: req.body.name,
             timestamp: new Date()
         });
-        res.render('contact-success', { name: 'friend' });
+        res.render('contact-success', { currentPage: 'contacts', name: 'friend' });
         return;
     }
 
@@ -29,7 +29,7 @@ router.post('/', limiter, async (req, res) => {
     }
     try {
         await sendContactEmail(values);
-        res.render('contact-success', { name: values.name });
+        res.render('contact-success', { currentPage: 'contacts', name: values.name });
     }
     catch (error) {
         console.error("Receiving an Error:", error);

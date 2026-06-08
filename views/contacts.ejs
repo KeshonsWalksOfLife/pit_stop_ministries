@@ -6,58 +6,75 @@
     <title>Contacts</title>
     <link rel="stylesheet" href="/css/contacts.css">
     <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-
     <%- include('partials/nav') %>
 
-        <h1>Contact Us</h1>
+    <main id="container-main">
+        <section id="contact-form" class="reveal">
+            <h1 class="contact-h1">Contact</h1>
+            <div id="crisis-alert" class="crisis-alert" hidden>
+                <p class="crisis-title">If you are in immediate danger, please reach out now.</p>
+                <ul class="crisis-actions">
+                    <li><a href="tel:988">Call 988</a></li>
+                    <li><a href="sms:988">Text 988</a></li>
+                    <li><a href="https://988lifeline.org/chat/" target="_blank" rel="noopener">Chat with 988</a></li>
+                </ul>
+                <p class="crisis-note">You are not alone. Pastor Q will still receive your message, but please connect with a trained counselor right now.</p>
+            </div>
 
-        <form action="/contacts" method="post">
-            <!-- Form Name -->
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
-             <% if (errors.name) { %>
-                <p class="error"><%= errors.name %></p>
-            <% } %>
-                <br><br>
+            <form action="/contacts" method="post" class="contact-form-card">
+                <div class="field <%= errors.category ? 'field--error' : '' %>">
+                    <label for="category">Contact Type</label>
+                    <select name="category" id="category" <%= errors.category ? 'aria-invalid="true"' : '' %>>
+                        <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
+                        <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
+                        <option value="Booking / Speaking" <%= values.category === 'Booking / Speaking' ? 'selected' : '' %>>Booking / Speaking</option>
+                        <option value="Marriage / Officiate" <%= values.category === 'Marriage / Officiate' ? 'selected' : '' %>>Marriage / Officiate</option>
+                        <option value="General Questions" <%= values.category === 'General Questions' ? 'selected' : '' %>>General Questions</option>
+                        <option value="Compliments / Testimonials" <%= values.category === 'Compliments / Testimonials' ? 'selected' : '' %>>Compliments / Testimonials</option>
+                        <option value="Suicidal / Emergency" <%= values.category === 'Suicidal / Emergency' ? 'selected' : '' %>>Suicidal / Emergency</option>
+                    </select>
+                    <% if (errors.category) { %>
+                        <p class="error"><%= errors.category %></p>
+                    <% } %>
+                </div>
 
-            <!-- Form Email -->
-             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= values.email || '' %>" required> 
-             <% if (errors.email) { %>
-                <p class="error"><%= errors.email %></p>
-            <% } %>
-            <br><br>
+                <div class="field <%= errors.name ? 'field--error' : '' %>">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="<%= values.name || '' %>" required <%= errors.name ? 'aria-invalid="true"' : '' %>>
+                    <% if (errors.name) { %>
+                        <p class="error"><%= errors.name %></p>
+                    <% } %>
+                </div>
 
-            <!-- Form Category -->
-            <label for="category">Contact Type</label>
+                <div class="field <%= errors.email ? 'field--error' : '' %>">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="<%= values.email || '' %>" required <%= errors.email ? 'aria-invalid="true"' : '' %>>
+                    <% if (errors.email) { %>
+                        <p class="error"><%= errors.email %></p>
+                    <% } %>
+                </div>
 
-            <select name="category" id="category">
-                <option value="" <%= !values.category ? 'selected' : '' %>>-- Choose a category --</option>
-                <option value="Prayer Request" <%= values.category === 'Prayer Request' ? 'selected' : '' %>>Prayer Request</option>
-                <option value="Booking / Speaking" <%= values.category === 'Booking / Speaking' ? 'selected' : '' %>>Booking / Speaking</option>
-                <option value="Marriage / Officiate" <%= values.category === 'Marriage / Officiate' ? 'selected' : '' %>>Marriage / Officiate</option>
-                <option value="General Questions" <%= values.category === 'General Questions' ? 'selected' : '' %>>General Questions</option>
-                <option value="Compliments / Testimonials" <%= values.category === 'Compliments / Testimonials' ? 'selected' : '' %>>Compliments / Testimonials</option>
-                <option value="Suicidal / Emergency" <%= values.category === 'Suicidal / Emergency' ? 'selected' : '' %>>Suicidal / Emergency</option>
-            </select>
-            <% if (errors.category) { %>
-                <p class="error"><%= errors.category %></p>
-            <% } %>
-            <!-- Form Message -->
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required><%= values.message || '' %></textarea> 
-            <% if (errors.message) { %>
-                <p class="error"><%= errors.message %></p>
-            <% } %>
-            <br><br>
+                <div class="field <%= errors.message ? 'field--error' : '' %>">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" required <%= errors.message ? 'aria-invalid="true"' : '' %>><%= values.message || '' %></textarea>
+                    <% if (errors.message) { %>
+                        <p class="error"><%= errors.message %></p>
+                    <% } %>
+                </div>
 
-            <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" style="position:absolute; left: -9999px; ">
-             
-            <button type="submit">Submit</button>
+                <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" class="hp-field">
 
-            
-        </form>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/contacts.js" defer></script>
 </body>
 </html>
