@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Pitt Stop Ministries</title>
+    <link rel="stylesheet" href="/css/pittstop.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+    <%- include('partials/nav') %>
+
+    <main id="pittstop-main">
+        <!-- HERO -->
+        <section class="ps-hero">
+            <div class="ps-hero-text">
+                <p class="ps-eyebrow">The Pitt Stop</p>
+                <!-- Placeholder copy — swap for Pastor Q's confirmed words -->
+                <h1>Every soul needs a pit stop.</h1>
+                <p class="ps-lead">A place to pull off the road, refuel on the Word, get repaired, and head back out stronger. That's what Pitt Stop Ministries is built to be.</p>
+                <div class="ps-cta">
+                    <a class="ps-btn ps-btn-primary" href="/sermons">Watch a message</a>
+                    <a class="ps-btn ps-btn-ghost" href="/contacts">Plan a visit</a>
+                </div>
+            </div>
+            <figure class="ps-hero-photo">
+                <img src="/images/pop-picture.jpg" alt="Pastor Q of Pitt Stop Ministries" loading="lazy">
+                <figcaption>Pastor Q</figcaption>
+            </figure>
+        </section>
+
+        <!-- STORY -->
+        <section class="ps-story">
+            <h2 class="ps-section-title">Our Heart</h2>
+            <!-- Placeholder copy — Don / Pastor Q to confirm -->
+            <p>Pitt Stop Ministries exists to bring God's people back to the Kingdom!<br>to meet you right where you are on the road and point you home.</p>
+            <p>Led by Pastor Q, we believe no one was meant to run on empty. <br>Whatever mile you're on, there's a place for you here.</p>
+        </section>
+
+        <!-- VALUES -->
+        <section class="ps-values">
+            <article class="ps-value">
+                <h3>Refuel</h3>
+                <p>Be filled by the Word and worship, every week.</p>
+            </article>
+            <article class="ps-value">
+                <h3>Repair</h3>
+                <p>Find healing, prayer, and a family that walks with you.</p>
+            </article>
+            <article class="ps-value">
+                <h3>Send out</h3>
+                <p>Get equipped and head back out to do what <strong>HE</strong> wants to do through you.</p>
+            </article>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/nav.js" defer></script>
+</body>
+</html>
