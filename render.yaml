@@ -1,0 +1,14 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Render dashboard: New + -> Blueprint -> connect this repo -> Render reads this file
+# and provisions the web service automatically. You only fill in the secret value.
+services:
+  - type: web
+    name: pitt-stop-ministries
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: BREVO_API_KEY
+        sync: false   # set the real value in the Render dashboard; never commit it
