@@ -208,11 +208,11 @@ body {
     margin: 0 0 32px;
 }
 
-.rhythm-grid {
+/* .rhythm-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
-}
+} */
 
 .rhythm-card {
     background: var(--surface);
