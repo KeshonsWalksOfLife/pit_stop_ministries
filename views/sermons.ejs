@@ -6,14 +6,46 @@
     <title>Sermons</title>
     <link rel="stylesheet" href="/css/sermons.css">
     <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
     <%- include('partials/nav') %>
 
     <section id="sermons-section">
         <h1>Sermons</h1>
-        <p>Coming Soon...</p>
+        <!-- Placeholder one-liner — swap for Pastor Q's confirmed copy -->
+        <p class="sermons-tagline">Pull in, refuel, and get back on the road — every message from The Pitt Stop.</p>
+
+        <% if (sermons && sermons.length) { %>
+            <div class="sermon-grid">
+                <% sermons.forEach(function (sermon) { %>
+                    <article class="sermon-card">
+                        <div class="sermon-video">
+                            <iframe
+                                src="https://www.youtube-nocookie.com/embed/<%= sermon.id %>"
+                                title="<%= sermon.title %>"
+                                loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                        </div>
+                        <h2 class="sermon-title"><%= sermon.title %></h2>
+                        <% if (sermon.date) { %>
+                            <%# date shown in the title; tag kept for machine-readable semantics %>
+                            <time class="sermon-date" datetime="<%= sermon.date %>"></time>
+                        <% } %>
+                        <% if (sermon.description) { %>
+                            <p class="sermon-desc"><%= sermon.description %></p>
+                        <% } %>
+                    </article>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>Coming Soon...</p>
+        <% } %>
     </section>
+
+    <%- include('partials/footer') %>
 
     <script src="/js/nav.js" defer></script>
 </body>
