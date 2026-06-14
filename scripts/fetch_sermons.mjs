@@ -18,7 +18,7 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 function titleFromDate(date) {
   if (!date) return "The Pitt Stop";
   const [y, m, d] = date.split("-");
-  return `The Pitt Stop — ${MONTHS[+m - 1]} ${+d}, ${y}`;
+  return `The Pitt Stop | ${MONTHS[+m - 1]} ${+d}, ${y}`;
 }
 
 async function dateOf(vid) {

@@ -1,0 +1,28 @@
+/* ---------- Site-wide type system ---------- */
+/* Display serif for headers, system sans for body + small labels. Linked on
+   every page (after the page's own CSS) so headings stay consistent site-wide. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap');
+
+:root {
+    --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+}
+
+/* small uppercase labels read better in sans — keep them out of the serif */
+.eyebrow,
+.section-eyebrow,
+.home-kicker {
+    font-family: var(--font-sans);
+}
+
+/* card titles are content, not section headers — keep them sans; Playfair is
+   reserved for true headers (hero h1, section/month headings) */
+.sermon-title {
+    font-family: var(--font-sans);
+}

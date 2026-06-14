@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitt Stop Ministries</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/type.css">
+</head>
+<body>
+    <%- include('partials/nav') %>
+
+    <main id="home-main">
+
+        <!-- HERO: the spiritual anchor -->
+        <header class="home-hero">
+            <img class="home-hero-art" src="/images/thy-kingdom-come.jpeg" alt="Thy Kingdom Come — Matthew 6:10">
+            <div class="home-hero-actions">
+                <p class="home-kicker">Welcome to Pitt Stop Ministries</p>
+                <div class="home-hero-cta">
+                    <a class="btn btn-primary" href="/sermons">Watch this week</a>
+                    <a class="btn btn-ghost" href="/pittstop">Who we are</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- WHO IS PITT STOP: the metaphor -->
+        <section class="home-intro">
+            <figure class="home-intro-photo">
+                <img src="/images/pit-crew.jpg" alt="A pit crew springs into action around a race car" loading="lazy">
+            </figure>
+            <div class="home-intro-text">
+                <p class="eyebrow">Who is Pitt Stop?</p>
+                <h2>Everybody runs low. <br>Nobody's meant to run empty.</h2>
+                <p>Life moves fast. Pitt Stop Ministries is the lane you pull into to refuel on the Word, get repaired by His grace, and head back out with a full tank bringing God's people back to the Kingdom.</p>
+                <a class="link-arrow" href="/pittstop">Read our story →</a>
+            </div>
+        </section>
+
+        <!-- WEEKLY RHYTHMS (events) -->
+        <section class="home-rhythms">
+            <p class="eyebrow center">When we gather</p>
+            <h2 class="center">Two stops every week</h2>
+            <!-- Placeholder day/time copy — confirm with Pastor Q -->
+            <div class="rhythm-grid">
+                <article class="rhythm-card">
+                    <h3>Refuel Wednesdays</h3>
+                    <p class="rhythm-when">Wednesdays · 7:00 PM</p>
+                    <p class="rhythm-desc">Midweek Bible study to top off your tank before the week runs you down.</p>
+                </article>
+                <article class="rhythm-card">
+                    <h3>Pitt Stop Talks</h3>
+                    <p class="rhythm-when">Sundays · 10:00 AM</p>
+                    <p class="rhythm-desc">Our main gathering | worship, the Word, and a family that's glad you pulled in.</p>
+                </article>
+            </div>
+            <p class="rhythm-note">New here? <a href="/contacts">Plan your visit</a> and we'll save you a spot.</p>
+        </section>
+
+        <!-- PATHS: friction-free CTAs out to the rest of the site -->
+        <section class="home-paths">
+            <p class="eyebrow center">Where to next</p>
+            <div class="paths-grid">
+                <a class="path-card" href="/sermons">
+                    <h3>Messages</h3>
+                    <p>Catch up on Pastor Q's latest sermons | watch anytime, anywhere.</p>
+                    <span class="path-go">Watch →</span>
+                </a>
+                <a class="path-card" href="/pittstop">
+                    <h3>Our heart</h3>
+                    <p>Meet Pastor Q and the why behind the Pitt Stop.</p>
+                    <span class="path-go">Meet us →</span>
+                </a>
+                <a class="path-card" href="/donations">
+                    <h3>Give</h3>
+                    <p>Fuel the mission | give once or sow every month.</p>
+                    <span class="path-go">Give →</span>
+                </a>
+                <a class="path-card" href="/contacts">
+                    <h3>Connect</h3>
+                    <p>Questions, prayer, or planning a visit? Reach out.</p>
+                    <span class="path-go">Contact →</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/nav.js" defer></script>
+</body>
+</html>

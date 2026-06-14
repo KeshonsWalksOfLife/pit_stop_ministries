@@ -146,6 +146,8 @@ body {
     line-height: 1.7;
     color: var(--text-muted);
     margin: 0 0 16px;
+    /* avoid orphans / ragged lines so the copy doesn't read "bent" */
+    text-wrap: pretty;
 }
 
 /* ---------- Values ---------- */
@@ -188,6 +190,22 @@ body {
 
     .ps-hero-text h1 {
         font-size: 2.1rem;
+    }
+
+    /* narrow screens: left-align + ease size so centered lines stop zig-zagging */
+    .ps-story {
+        margin: 40px auto;
+        text-align: left;
+    }
+
+    .ps-section-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .ps-story p {
+        font-size: 1rem;
+        line-height: 1.6;
     }
 
     .ps-values {
