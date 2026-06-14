@@ -12,34 +12,54 @@
     <%- include('partials/nav') %>
 
     <section id="sermons-section">
-        <h1>Sermons</h1>
-        <!-- Placeholder one-liner — swap for Pastor Q's confirmed copy -->
-        <p class="sermons-tagline">Pull in, refuel, and get back on the road — every message from The Pitt Stop.</p>
+        <header class="sermons-hero">
+            <h1>Sermons</h1>
+            <!-- Placeholder one-liner — swap for Pastor Q's confirmed copy -->
+            <p class="sermons-tagline">Pull in, refuel, and get back on the road!</p>
+        </header>
 
-        <% if (sermons && sermons.length) { %>
-            <div class="sermon-grid">
-                <% sermons.forEach(function (sermon) { %>
-                    <article class="sermon-card">
-                        <div class="sermon-video">
-                            <iframe
-                                src="https://www.youtube-nocookie.com/embed/<%= sermon.id %>"
-                                title="<%= sermon.title %>"
-                                loading="lazy"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allowfullscreen></iframe>
-                        </div>
-                        <h2 class="sermon-title"><%= sermon.title %></h2>
-                        <% if (sermon.date) { %>
-                            <%# date shown in the title; tag kept for machine-readable semantics %>
-                            <time class="sermon-date" datetime="<%= sermon.date %>"></time>
-                        <% } %>
-                        <% if (sermon.description) { %>
-                            <p class="sermon-desc"><%= sermon.description %></p>
-                        <% } %>
-                    </article>
-                <% }); %>
-            </div>
+        <% if (featured) { %>
+            <section class="featured">
+                <h2 class="section-eyebrow">Latest message</h2>
+                <article class="sermon-card featured-card">
+                    <div class="sermon-video">
+                        <button type="button" class="yt-facade" data-id="<%= featured.id %>" data-title="<%= featured.title %>" aria-label="Play: <%= featured.title %>">
+                            <img class="yt-thumb" src="https://i.ytimg.com/vi/<%= featured.id %>/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+                            <span class="yt-play" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <h3 class="sermon-title"><%= featured.title %></h3>
+                    <% if (featured.description) { %>
+                        <p class="sermon-desc"><%= featured.description %></p>
+                    <% } %>
+                </article>
+            </section>
+
+            <% groups.forEach(function (group) { %>
+                <section class="sermon-month">
+                    <h2 class="month-heading"><%= group.label %></h2>
+                    <div class="sermon-grid">
+                        <% group.sermons.forEach(function (sermon) { %>
+                            <article class="sermon-card">
+                                <div class="sermon-video">
+                                    <button type="button" class="yt-facade" data-id="<%= sermon.id %>" data-title="<%= sermon.title %>" aria-label="Play: <%= sermon.title %>">
+                                        <img class="yt-thumb" src="https://i.ytimg.com/vi/<%= sermon.id %>/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+                                        <span class="yt-play" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <h3 class="sermon-title"><%= sermon.title %></h3>
+                                <% if (sermon.date) { %>
+                                    <%# date shown in the title; tag kept for machine-readable semantics %>
+                                    <time class="sermon-date" datetime="<%= sermon.date %>"></time>
+                                <% } %>
+                                <% if (sermon.description) { %>
+                                    <p class="sermon-desc"><%= sermon.description %></p>
+                                <% } %>
+                            </article>
+                        <% }); %>
+                    </div>
+                </section>
+            <% }); %>
         <% } else { %>
             <p>Coming Soon...</p>
         <% } %>
@@ -48,5 +68,6 @@
     <%- include('partials/footer') %>
 
     <script src="/js/nav.js" defer></script>
+    <script src="/js/sermons.js" defer></script>
 </body>
 </html>
