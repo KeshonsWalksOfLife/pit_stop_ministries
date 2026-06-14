@@ -1,6 +1,6 @@
 # Pitt Stop Ministries
 
-A web application for Pitt Stop Ministries, built by Keshon for Pastor Keyubba Bowman.
+A web application for Pitt Stop Ministries, built for Pastor Keyubba Bowman.
 
 > **Detailed documentation lives in the [Wiki](../../wiki).** This README is the orientation
 > layer — what the project is, how to run it, and where things stand. For how each subsystem
