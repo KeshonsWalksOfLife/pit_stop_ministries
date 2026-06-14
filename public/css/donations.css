@@ -57,6 +57,9 @@ body {
     padding: 4rem 2rem;
     display: grid;
     gap: 3.5rem;
+    /* main stretches to fill the viewport (flex:1 in nav.css); keep the rows
+       gathered + centered so the gaps stay an even 3.5rem instead of blowing out */
+    align-content: center;
     text-align: center;
 }
 

@@ -8,9 +8,12 @@ Deep documentation for architecture, routes, and per-page behavior. Quick-start 
 - [Infrastructure](#infrastructure)
 - [Routes](#routes)
 - [Navigation](#navigation)
+- [Type System](#type-system)
 - [Contact Page](#contact-page)
 - [Donations Page](#donations-page)
 - [Sermons Page](#sermons-page)
+- [Pitt Stop (About) Page](#pitt-stop-about-page)
+- [Home Page](#home-page)
 - [Roadmap](#roadmap)
 
 ## Project Structure
@@ -21,16 +24,24 @@ pit_stop_ministries/
 ├── middleware/
 │   └── errorHandler.js       # Centralized error handling
 ├── routes/
+│   ├── home.js               # Home (landing/hub) route
+│   ├── sermons.js            # Sermons page route (reads + groups data/sermons.json)
+│   ├── pittstop.js           # Pitt Stop (About) page route
 │   ├── donations.js          # Donations page route
-│   ├── sermons.js            # Sermons page route
 │   └── contacts.js           # Contact form GET/POST + Brevo relay
 ├── services/
 │   ├── email.js              # Brevo transactional email client
 │   ├── validateContact.js    # Server-side validation for contact fields
 │   └── rateLimiter.js        # express-rate-limit config (5/15min per IP)
+├── data/
+│   └── sermons.json          # Curated YouTube sermon library (id / title / date)
+├── scripts/
+│   └── fetch_sermons.mjs     # Rebuilds sermons.json from a video-id list (oEmbed + upload date)
 ├── views/
-│   ├── donations.ejs
+│   ├── home.ejs
 │   ├── sermons.ejs
+│   ├── pittstop.ejs
+│   ├── donations.ejs
 │   ├── contacts.ejs
 │   ├── contact-success.ejs   # Post-submit confirmation (also used for honeypot deception)
 │   └── partials/
@@ -38,11 +49,13 @@ pit_stop_ministries/
 │       ├── footer.ejs        # Shared footer partial
 │       └── head.ejs          # Stub — Phase 2 head extraction
 ├── public/
-│   ├── css/                  # Per-page styles + shared nav/footer styles
+│   ├── css/                  # Per-page styles + shared nav/footer/type styles
 │   ├── js/
 │   │   ├── nav.js            # Hamburger toggle + ARIA sync
+│   │   ├── sermons.js        # Thumbnail-facade → YouTube iframe on click
+│   │   ├── donations.js      # Tithe.ly reveal + scroll reveal
 │   │   └── contacts.js       # Crisis interception + submit state + scroll reveal
-│   └── assets/               # Images
+│   └── images/               # Brand imagery (lion hero, pit crew, Pastor Q)
 ├── .env                      # Environment variables (not committed)
 ├── .env.example              # Template for required env vars
 └── package.json
@@ -62,9 +75,10 @@ pit_stop_ministries/
 
 | Method | Path               | Behavior                                                                                              |
 |--------|--------------------|-------------------------------------------------------------------------------------------------------|
-| GET    | `/`                | Health check response                                                                                 |
+| GET    | `/`                | Renders the Home page — the hub (lion hero, intro, weekly rhythms, CTA paths)                         |
+| GET    | `/sermons`         | Renders the Sermons page — curated YouTube library, featured latest + month groups                   |
+| GET    | `/pittstop`        | Renders the Pitt Stop (About) page                                                                    |
 | GET    | `/donations`       | Renders donations page with embedded Tithe.ly Give widget                                             |
-| GET    | `/sermons`         | Renders sermons page (scaffold)                                                                       |
 | GET    | `/contacts`        | Renders contact form                                                                                  |
 | POST   | `/contacts`        | Rate-limited (5/15min per IP), honeypot-checked, validated, then relays to Pastor Bowman via Brevo    |
 
@@ -72,7 +86,7 @@ Each page route passes `currentPage` to its template so the shared nav partial c
 
 ## Navigation
 
-Shared `views/partials/nav.ejs` partial included by every page.
+Shared `views/partials/nav.ejs` partial included by every page. Items: **Home · Sermons · Donations · Pitt Stop · Contact**. There is no standalone Events item — the two weekly rhythms live on the Home page.
 
 - **Desktop (≥ 769px):** persistent 200px vertical rail on the left, dark background, white links
 - **Mobile (≤ 768px):** rail collapses to a 48×48px hamburger button (WCAG touch target); clicking toggles `.nav-links.open` to reveal the menu
@@ -81,6 +95,14 @@ Shared `views/partials/nav.ejs` partial included by every page.
 - **Hardening:** partial uses a local `_cp` fallback so a route that forgets to pass `currentPage` still renders cleanly
 
 Behavior wired from `public/js/nav.js`, loaded via `<script src="/js/nav.js" defer></script>` on each page that includes the partial.
+
+## Type System
+
+Shared `public/css/type.css`, linked on every page after its own stylesheet so headings stay consistent site-wide.
+
+- **Headers** (`h1`, `h2`, `h3`) use the display serif **Playfair Display** (`--font-display`, Georgia/serif fallback) for gravity and brand voice.
+- **Body, labels, and card titles** stay in the system sans stack (`--font-sans`). Small uppercase labels (`.eyebrow`, `.section-eyebrow`, `.home-kicker`) and content titles (`.sermon-title`) are explicitly kept sans, so Playfair is reserved for true section headers.
+- The font is pulled once via `@import` inside `type.css`, keeping each page's `<head>` clean.
 
 ## Contact Page
 
@@ -118,27 +140,52 @@ Route at `routes/donations.js`, view at `views/donations.ejs`, styles at `public
 
 ## Sermons Page
 
-Currently a scaffold. Route at `routes/sermons.js`, view at `views/sermons.ejs`, styles at `public/css/sermons.css`. YouTube channel embed and design pass pending.
+Surfaces Pastor Q's video messages from the `@cristoviveenmitvtucanaldeb3599` YouTube channel. Route at `routes/sermons.js`, view at `views/sermons.ejs`, styles at `public/css/sermons.css`, behavior at `public/js/sermons.js`.
+
+**Content source — `data/sermons.json`:** a hand-curated list of `{ id, title, date, description }`. Because every video on the channel is titled identically ("THE PITT STOP"), display titles are date-stamped — `The Pitt Stop | Mon D, YYYY`. The list is regenerated by `scripts/fetch_sermons.mjs`, which pulls real titles via YouTube oEmbed and real upload dates by scraping each watch page (needs a `Mozilla/5.0` User-Agent). To add videos: append IDs and run `node scripts/fetch_sermons.mjs`.
+
+**Layout:** the route sorts newest-first, features the latest message large, and groups the rest by month (`June 2026`, `May 2026`, …) into a 2-column card grid. Dark brand theme with a gold-glow hero.
+
+**Performance — thumbnail facade:** cards render a lightweight YouTube thumbnail (`i.ytimg.com/vi/<id>/hqdefault.jpg`) plus a play button; `public/js/sermons.js` swaps in the real `youtube-nocookie` iframe only on click (video id validated against `/^[A-Za-z0-9_-]{11}$/`). The page loads ~30 small images instead of 30 live players.
+
+## Pitt Stop (About) Page
+
+The ministry's story. Route at `routes/pittstop.js`, view at `views/pittstop.ejs`, styles at `public/css/pittstop.css`.
+
+**Layout:** split hero — Pastor Q's portrait (`public/images/pop-picture.jpg`) carries the visual weight, feathered via a radial `mask-image` so its pure-black backdrop melts into the dark canvas — beside a headline, lead copy, and CTAs (orange primary → Sermons, ghost → Contact). Below: an "Our heart" story section and Refuel / Repair / Send-out value cards. Orange (`#E85A1A`) is the primary accent here, gold secondary. Story/About copy is placeholder pending Pastor Q.
+
+## Home Page
+
+The hub that ties the site together. Route at `routes/home.js` (mounted at `/`), view at `views/home.ejs`, styles at `public/css/home.css`.
+
+**Sections:**
+1. **Hero** — the "Thy Kingdom Come / Matthew 6:10" lion (`public/images/thy-kingdom-come.jpeg`) as the spiritual anchor, with a gold aura halo and a slow fade-from-dark reveal; "Welcome" kicker + CTAs (Watch this week → Sermons, Who we are → About) below.
+2. **Who is Pitt Stop** — the pit-crew image (`public/images/pit-crew.jpg`) beside the refueling-metaphor copy → links to the About story.
+3. **Weekly Rhythms (events)** — *Refuel Wednesdays* + *Pitt Stop Talks* cards (placeholder times pending Pastor Q) with a "Plan your visit" nudge. Events have no separate page; they live here.
+4. **Where to next** — four friction-free, benefit-led CTA cards routing to Sermons / About / Give / Connect.
+
+Tightened, even spacing under 768px so the page glides on phones.
 
 ## Roadmap
 
-- [x] Foundation infrastructure
-- [x] Donations route + Tithe.ly widget embed
-- [x] Shared nav partial + mobile hamburger + active-state styling
-- [x] Footer partial + footer.css (seamless dark blend)
-- [x] Contact form: scaffold + Brevo email + validation + honeypot + rate limiting
-- [x] Contact form: error state polish + submit loading state
-- [x] Contact-success view: brand styling + name personalization
-- [x] Nav rail: widened to 200px, dark recolor, current-page hardening
-- [x] Crisis interception JS for emergency category
-- [x] Contact page design pass (dark theme + form-focused layout + radial glow)
-- [x] Sermons page (scaffold)
-- [x] Donations page design pass (dark theme + brand-gold Give button + footer + reveals)
-- [ ] Sermons page: YouTube channel embed + design pass *(next)*
-- [ ] Donor testimonials section on donations page (Phase 2 — stories from those who've given and what led them to it)
-- [ ] Events page
-- [ ] Home page (built last, after all sub-pages exist)
-- [ ] Auth0 integration (Phase 2 — user accounts for Pastor Bowman to manage content)
-- [ ] Collapsible desktop/tablet nav rail with icon-only state (Phase 2 — requires icon library)
-- [ ] Cookie consent + SEO/analytics groundwork (Phase 2)
-- [ ] Refactor shared `<head>` content into `partials/head.ejs` (Phase 2 — stub already exists)
+### Phase 1 — v1 (shipped) 🏁
+
+- [x] Foundation infrastructure (Express, EJS, middleware, centralized error handling)
+- [x] Shared nav partial + mobile hamburger + active-state styling + footer partial
+- [x] Contact form: Brevo email + validation + honeypot + rate limiting + crisis interception + design pass
+- [x] Donations page: Tithe.ly Give widget + dark brand design pass + scroll reveals
+- [x] Sermons page: curated YouTube library, month categories, thumbnail-facade players, dark design
+- [x] Pitt Stop (About) page: Pastor Q hero + story + value cards
+- [x] Home page (hub): lion hero, ministry intro, weekly rhythms (events folded in), CTA paths
+- [x] Site-wide type system (Playfair Display headers + system-sans body)
+- [x] Nav restructure (Home added, Events folded into Home) + image optimization
+
+### Phase 2 — post-launch
+
+- [ ] Confirm real service times + finalize sermon/About copy with Pastor Q
+- [ ] Brevo sender-domain SPF/DKIM verification for production email
+- [ ] Donor testimonials section on the donations page
+- [ ] Auth0 integration (user accounts for Pastor Bowman to manage content)
+- [ ] Collapsible desktop/tablet nav rail with icon-only state (requires icon library)
+- [ ] Cookie consent + SEO/analytics groundwork
+- [ ] Refactor shared `<head>` into `partials/head.ejs` (stub already exists)

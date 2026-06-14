@@ -11,6 +11,7 @@ const donationsRouter = require("./routes/donations");
 const contactsRouter = require("./routes/contacts");
 const sermonsRouter = require("./routes/sermons")
 const pittStopRouter = require("./routes/pittstop")
+const homeRouter = require("./routes/home")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,9 +40,8 @@ app.use("/sermons", sermonsRouter);
 // Pitt Stop (About) routes for rendering the ministry story page
 app.use("/pittstop", pittStopRouter);
 
-app.get("/", (req, res) => {
-    res.send("This is the Pit Stop Ministries API");
-})
+// Home routes for rendering the landing page (the hub)
+app.use("/", homeRouter);
 
 app.use(errorHandler);
 
