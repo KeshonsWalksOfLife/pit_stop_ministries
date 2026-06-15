@@ -152,8 +152,9 @@ body {
 .home-rhythms,
 .home-paths {
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 0 auto -36px auto;
     padding: 72px 24px;
+    /* border: 2px solid red; */
 }
 
 /* ---------- Who is Pitt Stop ---------- */
@@ -220,6 +221,7 @@ body {
     border-left: 4px solid var(--brand-orange);
     border-radius: 12px;
     padding: 28px;
+    margin-bottom: 24px;
 }
 
 .rhythm-card h3 {
