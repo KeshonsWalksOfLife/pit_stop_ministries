@@ -3,3 +3,6 @@ node_modules/
 
 # Environmental Variables
 .env
+
+# Source/original images (served copies live in public/images/)
+assets/

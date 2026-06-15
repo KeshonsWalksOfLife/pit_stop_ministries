@@ -60,6 +60,7 @@ body {
     line-height: 1.1;
     margin: 0 0 18px;
     text-wrap: balance;
+    margin-bottom: 32px;
 }
 
 .ps-lead {
@@ -69,6 +70,7 @@ body {
     max-width: 48ch;
     margin: 0 0 28px;
 }
+
 
 /* ---------- Buttons ---------- */
 .ps-cta {
