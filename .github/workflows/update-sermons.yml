@@ -1,0 +1,48 @@
+name: Update Sermons from YouTube
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours — new live streams don't need minute-level freshness
+  workflow_dispatch: {}      # manual trigger from the Actions tab, for testing this on the real feed
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run sermon updater
+        run: node scripts/update-sermons.js
+
+      - name: Commit changes if any videos were added
+        id: commit
+        run: |
+          git config user.name "sermon-updater-bot"
+          git config user.email "actions@github.com"
+          git add data/sermons.json data/last-sermon-update.json
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore: auto-add new sermon(s) from YouTube $(date -u +%Y-%m-%d)"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Optional: push a phone notification via ntfy.sh (free, no signup —
+      # just pick a private topic name and subscribe to it in the ntfy app).
+      # Set NTFY_TOPIC as a repo secret to enable; skipped entirely if unset.
+      - name: Notify Don
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          if [ -z "$NTFY_TOPIC" ]; then
+            echo "NTFY_TOPIC not set — skipping push notification. Commit still happened."
+            exit 0
+          fi
+          TITLES=$(node -e "console.log(require('./data/last-sermon-update.json').added.map(s => s.title).join(', '))")
+          curl -s -d "Sermons page updated: $TITLES" "https://ntfy.sh/$NTFY_TOPIC"
