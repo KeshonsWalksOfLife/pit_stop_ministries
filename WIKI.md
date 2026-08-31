@@ -32,7 +32,7 @@ pit_stop_ministries/
 ├── services/
 │   ├── email.js              # Brevo transactional email client
 │   ├── validateContact.js    # Server-side validation for contact fields
-│   └── rateLimiter.js        # express-rate-limit config (5/15min per IP)
+│   └── rateLimiter.js        # express-rate-limit config (5/15min per IP, 3/24h per email)
 ├── data/
 │   └── sermons.json          # Curated YouTube sermon library (id / title / date)
 ├── scripts/
@@ -80,7 +80,7 @@ pit_stop_ministries/
 | GET    | `/pittstop`        | Renders the Pitt Stop (About) page                                                                    |
 | GET    | `/donations`       | Renders donations page with embedded Tithe.ly Give widget                                             |
 | GET    | `/contacts`        | Renders contact form                                                                                  |
-| POST   | `/contacts`        | Rate-limited (5/15min per IP), honeypot-checked, validated, then relays to Pastor Bowman via Brevo    |
+| POST   | `/contacts`        | Rate-limited (5/15min per IP, 3/24h per email), honeypot-checked, validated, then relays to Pastor Bowman via Brevo |
 
 Each page route passes `currentPage` to its template so the shared nav partial can mark the active link with `aria-current="page"`.
 
@@ -116,13 +116,14 @@ Form collects: name, email, category dropdown, message.
 
 **Email delivery:** Brevo transactional API relays submissions to Pastor Bowman's inbox via `services/email.js`. Direct SMTP credentials never touch the codebase. Set `BREVO_API_KEY` in `.env` (sender domain SPF/DKIM verification still pending for production).
 
-**Spam & abuse protection — three-layer defense on `POST /contacts`:**
+**Spam & abuse protection — four-layer defense on `POST /contacts`:**
 
-1. **Rate limiting** (`services/rateLimiter.js`) — Cheapest, broadest gate. 5 submissions per 15 minutes per IP, returns HTTP 429 with a friendly retry message. Mounted as middleware on the POST route so it runs before any other logic.
-2. **Honeypot** (`routes/contacts.js`) — Hidden `website` input rendered off-screen with `aria-hidden="true"` and `tabindex="-1"` so screen readers and keyboard users skip it, but bots filling every field will trip it. Triggered submissions are logged server-side with IP + identifying info, then rendered a **fake success page** so the attacker doesn't learn the trap exists.
-3. **Validation** (`services/validateContact.js`) — Server-side checks on name (1–100), email (6–254 + format), category (whitelist), and message (10–2000). EJS templates auto-escape via `<%= %>` so any returned user input is XSS-safe. Errors render back to the form with the original values preserved.
+1. **IP rate limiting** (`services/rateLimiter.js` → `limiter`) — Cheapest, broadest gate. 5 submissions per 15 minutes per IP, returns HTTP 429 with a friendly retry message. Requires `app.set("trust proxy", 1)` in `index.js` to read the real visitor IP through Render's reverse proxy — without it, every request resolves to the same proxy address and the limiter effectively becomes one shared bucket for the whole site.
+2. **Email rate limiting** (`services/rateLimiter.js` → `emailLimiter`) — Catches a sender who spreads submissions across the day from the same address (e.g. one an hour) to stay under the IP window. Keys on the submitted `email` field instead of IP: 3 submissions per 24 hours per address, regardless of which IP they came from.
+3. **Honeypot** (`routes/contacts.js`) — Hidden `website` input rendered off-screen with `aria-hidden="true"` and `tabindex="-1"` so screen readers and keyboard users skip it, but bots filling every field will trip it. Triggered submissions are logged server-side with IP + identifying info, then rendered a **fake success page** so the attacker doesn't learn the trap exists.
+4. **Validation** (`services/validateContact.js`) — Server-side checks on name (1–100), email (6–254 + format), category (whitelist), and message (10–2000). EJS templates auto-escape via `<%= %>` so any returned user input is XSS-safe. Errors render back to the form with the original values preserved.
 
-Defense is intentionally layered: each gate is cheaper and broader than the next. A bot has to rotate IPs faster than 5/15min, *and* not fill the honeypot, *and* pass validation, before the email send is even attempted.
+Defense is intentionally layered: each gate is cheaper and broader than the next. A bot has to rotate IPs faster than 5/15min, *and* rotate email addresses faster than 3/24h, *and* not fill the honeypot, *and* pass validation, before the email send is even attempted.
 
 ## Donations Page
 
