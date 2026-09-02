@@ -32,7 +32,8 @@ pit_stop_ministries/
 ├── services/
 │   ├── email.js              # Brevo transactional email client
 │   ├── validateContact.js    # Server-side validation for contact fields
-│   └── rateLimiter.js        # express-rate-limit config (5/15min per IP, 3/24h per email)
+│   ├── rateLimiter.js        # express-rate-limit config (5/15min per IP, 3/24h per email)
+│   └── fileRateLimitStore.js # Persists rate-limit counters to disk (survives restarts)
 ├── data/
 │   └── sermons.json          # Curated YouTube sermon library (id / title / date)
 ├── scripts/
@@ -70,6 +71,17 @@ pit_stop_ministries/
 - URL-encoded form body parsing (`express.urlencoded({ extended: true })`)
 - `morgan` request logging in dev mode
 - Centralized error handler — catches unhandled errors, returns clean 500 response
+- `app.set("trust proxy", 1)` — required for correct per-visitor IP detection behind Render's (or any) reverse proxy; see [Contact Page](#contact-page) spam defense
+
+### Docker
+
+`Dockerfile` + `docker-compose.yml` at the repo root run the same app in a container — `docker compose up --build` (after `cp .env.example .env`). Notes:
+
+- Base image `node:22-alpine`, matching the Node version the project is developed against (no `.nvmrc`/`engines` pin exists yet).
+- `npm ci --omit=dev` — production dependencies only (`nodemon`, a devDependency, is skipped).
+- Runs as the non-root `node` user built into the base image, not root.
+- `/app/data-runtime` (where `services/fileRateLimitStore.js` persists rate-limit counters) is mounted as a named volume (`rate-limit-data`) in `docker-compose.yml`, so counters survive `docker compose restart`/redeploys the same way they'd need to in any long-lived deployment.
+- This is currently an alternative way to run the app locally/self-hosted — production still deploys via `render.yaml`'s native Node runtime (Render also supports Docker-based services, but switching `render.yaml` to build from this image is a separate, not-yet-made decision).
 
 ## Routes
 
@@ -120,6 +132,8 @@ Form collects: name, email, category dropdown, message.
 
 1. **IP rate limiting** (`services/rateLimiter.js` → `limiter`) — Cheapest, broadest gate. 5 submissions per 15 minutes per IP, returns HTTP 429 with a friendly retry message. Requires `app.set("trust proxy", 1)` in `index.js` to read the real visitor IP through Render's reverse proxy — without it, every request resolves to the same proxy address and the limiter effectively becomes one shared bucket for the whole site.
 2. **Email rate limiting** (`services/rateLimiter.js` → `emailLimiter`) — Catches a sender who spreads submissions across the day from the same address (e.g. one an hour) to stay under the IP window. Keys on the submitted `email` field instead of IP: 3 submissions per 24 hours per address, regardless of which IP they came from.
+
+Both limiters store their hit counts via `services/fileRateLimitStore.js`, a small JSON-file-backed `Store` (implements the `express-rate-limit` `Store` interface), instead of the default in-memory store. That matters because Render's free tier spins the process down after idle time — with the default in-memory store, every restart silently reset every counter back to zero, so a slow, spread-out sender never accumulated a real block. The file lives under `RATE_LIMIT_DATA_DIR` (defaults to `data-runtime/` locally; set to `/app/data-runtime` in Docker, see below), so counts survive restarts. Both limiters also log to the console on every block (IP, email, name, timestamp) so blocked activity shows up in server/Render logs instead of being invisible.
 3. **Honeypot** (`routes/contacts.js`) — Hidden `website` input rendered off-screen with `aria-hidden="true"` and `tabindex="-1"` so screen readers and keyboard users skip it, but bots filling every field will trip it. Triggered submissions are logged server-side with IP + identifying info, then rendered a **fake success page** so the attacker doesn't learn the trap exists.
 4. **Validation** (`services/validateContact.js`) — Server-side checks on name (1–100), email (6–254 + format), category (whitelist), and message (10–2000). EJS templates auto-escape via `<%= %>` so any returned user input is XSS-safe. Errors render back to the form with the original values preserved.
 

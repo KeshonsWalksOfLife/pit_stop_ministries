@@ -18,6 +18,18 @@ npm run dev
 
 The server runs on `http://localhost:3000` by default (configurable via `PORT` in `.env`).
 
+### Running with Docker
+
+```bash
+cp .env.example .env       # fill in BREVO_API_KEY, PORT, etc.
+docker compose up --build
+```
+
+Same app, same `.env`, running in a container on `http://localhost:3000`. The contact form's
+rate-limit counters (`services/rateLimiter.js`) are persisted to a named volume
+(`rate-limit-data`, mounted at `/app/data-runtime`) so they survive container restarts instead
+of silently resetting.
+
 ## Project Structure
 
 ```
