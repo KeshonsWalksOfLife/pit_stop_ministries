@@ -60,7 +60,7 @@ The wiki holds the detailed reference for each part of the system:
 - **[Sermons Page](../../wiki/Sermons-Page)** — curated YouTube library, month categories, thumbnail-facade players
 - **[Pitt Stop (About) Page](../../wiki/Pitt-Stop-Page)** — Pastor Q hero, story, values
 - **[Donations Page](../../wiki/Donations-Page)** — Tithe.ly Give widget + brand framing
-- **[Contact Page](../../wiki/Contact-Page)** — form categories, crisis interception, Brevo email relay, 4-layer spam defense
+- **[Contact Page](../../wiki/Contact-Page)** — form categories, crisis interception, Brevo email relay, 5-layer spam defense
 
 ## Roadmap
 

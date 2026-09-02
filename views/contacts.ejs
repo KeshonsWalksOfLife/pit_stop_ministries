@@ -48,6 +48,9 @@
       gtag('js', new Date());
       gtag('config', 'G-2H8RJXLDZR');
     </script>
+    <% if (typeof hcaptchaSiteKey !== 'undefined' && hcaptchaSiteKey) { %>
+        <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <% } %>
 </head>
 <body>
     <%- include('partials/nav') %>
@@ -107,6 +110,15 @@
                 </div>
 
                 <input type="text" name="website" id="website" aria-hidden="true" tabindex="-1" class="hp-field">
+
+                <% if (typeof hcaptchaSiteKey !== 'undefined' && hcaptchaSiteKey) { %>
+                    <div class="field <%= errors.captcha ? 'field--error' : '' %>">
+                        <div class="h-captcha" data-sitekey="<%= hcaptchaSiteKey %>"></div>
+                        <% if (errors.captcha) { %>
+                            <p class="error"><%= errors.captcha %></p>
+                        <% } %>
+                    </div>
+                <% } %>
 
                 <button type="submit" class="btn-submit">Send Message</button>
             </form>
