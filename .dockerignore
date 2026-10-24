@@ -1,6 +1,8 @@
 node_modules
-.git
-.github
-.env
 npm-debug.log
-*.md
+.env
+.git
+.gitignore
+data-runtime
+README.md
+WIKI.md

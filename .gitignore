@@ -1,6 +1,9 @@
 # node module
 node_modules/
 
+# Persisted rate-limit counters (services/rateLimiter.js) — runtime state, not source
+data-runtime/
+
 # Environmental Variables
 .env
 

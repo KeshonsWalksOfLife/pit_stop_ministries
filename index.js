@@ -16,6 +16,12 @@ const homeRouter = require("./routes/home")
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Render sits in front of the app as a single reverse-proxy hop. Without this,
+// Express ignores the X-Forwarded-For header and req.ip resolves to Render's
+// internal proxy address for every request — collapsing per-visitor rate
+// limiting (services/rateLimiter.js) into one shared bucket for the whole site.
+app.set("trust proxy", 1);
+
 // Template engine = "ejs" - allows us to render dynamic HTML pages
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"));

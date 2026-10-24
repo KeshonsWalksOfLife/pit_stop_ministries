@@ -1,8 +1,15 @@
 services:
   web:
     build: .
+    restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
       - .env
-    restart: unless-stopped
+    environment:
+      - PORT=3000
+    volumes:
+      - rate-limit-data:/app/data-runtime
+
+volumes:
+  rate-limit-data:
